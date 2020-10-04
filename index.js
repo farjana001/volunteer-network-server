@@ -47,10 +47,15 @@ client.connect(err => {
     })
 
     app.get('/userEvent', (req, res) => {
+        console.log(req.query.email);
         eventsCollection.find({email: req.query.email})
         .toArray((err, documents) => {
             res.send(documents)
         })
+    })
+
+    app.delete('/delete/:id', (req, res) => {
+        console.log(req.params.id);
     })
 
 });
