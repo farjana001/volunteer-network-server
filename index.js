@@ -46,6 +46,13 @@ client.connect(err => {
         })
     })
 
+    app.get('/userEvent', (req, res) => {
+        eventsCollection.find({email: req.query.email})
+        .toArray((err, documents) => {
+            res.send(documents)
+        })
+    })
+
 });
 
 
