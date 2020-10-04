@@ -11,6 +11,7 @@ const port = 5000
 
 const app = express()
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 
@@ -41,6 +42,7 @@ client.connect(err => {
         eventsCollection.insertOne(event)
         .then(result => {
             res.send(result.insertedCount > 0)
+            console.log(result);
         })
     })
 
