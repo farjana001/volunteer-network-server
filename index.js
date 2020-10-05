@@ -82,6 +82,11 @@ client.connect(err => {
         })
     })
 
+
+// server homepage
+    app.get('/', (req, res) => {
+        res.send('Volunteer Network Server')
+    })
 });
 
 app.listen(process.env.PORT || port);
