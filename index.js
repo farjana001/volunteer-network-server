@@ -23,6 +23,7 @@ client.connect(err => {
   const eventsCollection = client.db("charity").collection("events");
   const addEventsCollection = client.db("charity").collection("addedEvents");
  
+//   adding homepage data to mongodb server
     app.post('/addData', (req, res) => {
         const data = req.body;
         dataCollection.insertMany(data)
@@ -31,6 +32,8 @@ client.connect(err => {
         })
     })
 
+
+// loading homepage data to UI
     app.get('/events', (req, res) => {
         dataCollection.find({})
         .toArray((err, documents) => {
@@ -38,6 +41,8 @@ client.connect(err => {
         })
     })
 
+
+// sending registration data to server
     app.post('/addEvents', (req, res) => {
         const event = req.body;
         eventsCollection.insertOne(event)
@@ -47,6 +52,8 @@ client.connect(err => {
         })
     })
 
+
+// Showing loggedInUser's information in UI
     app.get('/userEvent', (req, res) => {
         console.log(req.query.email);
         eventsCollection.find({email: req.query.email})
@@ -55,10 +62,8 @@ client.connect(err => {
         })
     })
 
-    app.delete('delete/:id', (req, res) => {
-        console.log(req.params.id);
-    })
 
+// Sending added event data by admit to server
     app.post('/addedEvents', (req, res) => {
         const event = req.body;
         addEventsCollection.insertOne(event)
@@ -68,6 +73,8 @@ client.connect(err => {
         })
     })
 
+
+// loading added events by admin to UI
     app.get('/adminEvents', (req, res) => {
         addEventsCollection.find({})
         .toArray((err, documents) => {
@@ -76,11 +83,5 @@ client.connect(err => {
     })
 
 });
-
-
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 app.listen(port);
