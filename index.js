@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const ObjectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
 
@@ -82,6 +83,16 @@ client.connect(err => {
         })
     })
 
+
+// Deleting an event from Server
+app.delete('/delete/:id', (req, res) => {
+    console.log(req.params.id);
+    eventsCollection.deleteOne({ _id: ObjectId(req.params.id) })
+    .then((result) => {
+        res.send(result.deletedCount > 0);
+    })
+
+})
 
 // server homepage
     app.get('/', (req, res) => {
