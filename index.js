@@ -21,6 +21,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const dataCollection = client.db("charity").collection("data");
   const eventsCollection = client.db("charity").collection("events");
+  const addEventsCollection = client.db("charity").collection("addedEvents");
  
     app.post('/addData', (req, res) => {
         const data = req.body;
@@ -54,8 +55,24 @@ client.connect(err => {
         })
     })
 
-    app.delete('/delete/:id', (req, res) => {
+    app.delete('delete/:id', (req, res) => {
         console.log(req.params.id);
+    })
+
+    app.post('/addedEvents', (req, res) => {
+        const event = req.body;
+        addEventsCollection.insertOne(event)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+            console.log(result);
+        })
+    })
+
+    app.get('/adminEvents', (req, res) => {
+        addEventsCollection.find({})
+        .toArray((err, documents) => {
+            res.send(documents);
+        })
     })
 
 });
